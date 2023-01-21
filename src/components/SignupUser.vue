@@ -456,8 +456,7 @@ export default {
     
   }
   .zindex {
-  position: fixed;
-  z-index: 1;
+
 
 
 }
