@@ -286,6 +286,7 @@ const callback = (response) => {
   // his Google account from the popup
   console.log("Handle the response", response)
 }
+console.log(callback);
 export default {
   data () {
 
