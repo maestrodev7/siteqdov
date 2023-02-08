@@ -290,7 +290,7 @@ console.log(callback);
 export default {
   data () {
 
-       return {
+       return { 
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
       itemCountry: Country.getAllCountries(),
@@ -457,8 +457,6 @@ export default {
     
   }
   .zindex {
-
-
 
 }
   @-moz-keyframes loader {
