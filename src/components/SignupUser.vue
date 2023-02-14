@@ -22,11 +22,7 @@
                       
                         <div class="text-center mt-4">
                             <GoogleLogin :callback="callback"/>
-                          <v-btn class="mx-2" fab color="info" outlined>
-                            <v-icon>mdi-facebook</v-icon>
-                          </v-btn>
-
-
+                            <v-facebook-login color="info" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
                           </v-btn>
@@ -278,6 +274,7 @@
 <script>
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {getFirestore,collection, addDoc } from "firebase/firestore";
+import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
@@ -288,6 +285,10 @@ const callback = (response) => {
 }
 console.log(callback);
 export default {
+     components : {
+      VFacebookLogin, 
+        
+    },
   data () {
 
        return { 
@@ -366,6 +367,12 @@ export default {
   
   methods: {
     redirect(){this.$router.push('home') },
+     handleLogin(response) {
+            console.log("User Successfully Logged In" , response)
+        },
+        handleLoginFailed() {
+            console.log("User Cancelled or Abort the Login")
+        },
     
         async  onSubmit() {
             const docData = {
