@@ -22,7 +22,7 @@
                       
                         <div class="text-center mt-4">
                             <GoogleLogin :callback="callback"/>
-                            <v-facebook-login color="info" app-id="876393646978646"></v-facebook-login>
+                            <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
                           </v-btn>
@@ -295,7 +295,9 @@ export default {
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
       itemCountry: Country.getAllCountries(),
-    
+      FB: {},
+     
+      scope: {},
       logggole: callback,
     
      formerror:"",
@@ -367,12 +369,10 @@ export default {
   
   methods: {
     redirect(){this.$router.push('home') },
-     handleLogin(response) {
-            console.log("User Successfully Logged In" , response)
-        },
-        handleLoginFailed() {
-            console.log("User Cancelled or Abort the Login")
-        },
+    handleSdkInit({ FB, scope }) {
+        this.FB = FB
+        this.scope = scope
+      },
     
         async  onSubmit() {
             const docData = {
