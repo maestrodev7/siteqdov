@@ -21,7 +21,9 @@
                         </v-toolbar>
                       
                         <div class="text-center mt-4">
-                            <GoogleLogin :callback="callback"/>
+                            <GoogleLogin    
+                              @success="onSuccess"
+                              @failure="onFailure"/>
                             <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
@@ -369,6 +371,12 @@ export default {
   
   methods: {
     redirect(){this.$router.push('home') },
+    onSuccess(response) {
+      console.log('Connexion réussie:', response)
+    },
+    onFailure(response) {
+      console.log('Connexion échouée:', response)
+    },
     handleSdkInit({ FB, scope }) {
         this.FB = FB
         this.scope = scope
