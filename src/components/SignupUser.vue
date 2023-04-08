@@ -290,6 +290,7 @@ export default {
   // his Google account from the popup
   console.log("Handle the response", response)
 }
+console.log("sds");
 console.log(callback);},
   data () {
 
@@ -300,7 +301,7 @@ console.log(callback);},
       FB: {},
      
       scope: {},
-      logggole: callback,
+      logggole: "callback",
     
      formerror:"",
      formsucces:"",
@@ -371,12 +372,6 @@ console.log(callback);},
   
   methods: {
     redirect(){this.$router.push('home') },
-    onSuccess(response) {
-      console.log('Connexion réussie:', response)
-    },
-    onFailure(response) {
-      console.log('Connexion échouée:', response)
-    },
     handleSdkInit({ FB, scope }) {
         this.FB = FB
         this.scope = scope
