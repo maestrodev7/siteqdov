@@ -22,8 +22,7 @@
                       
                         <div class="text-center mt-4">
                             <GoogleLogin    
-                              @success="onSuccess"
-                              @failure="onFailure"/>
+                            :callback="callback"/>
                             <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
@@ -280,17 +279,18 @@ import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
-const callback = (response) => {
-  // This callback will be triggered when the user selects or login to
-  // his Google account from the popup
-  console.log("Handle the response", response)
-}
-console.log(callback);
+
 export default {
      components : {
       VFacebookLogin, 
         
     },
+    setup(){const callback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log("Handle the response", response)
+}
+console.log(callback);},
   data () {
 
        return { 
