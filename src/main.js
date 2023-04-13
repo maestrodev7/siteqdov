@@ -48,7 +48,8 @@ app.use(vuetify)
 app.use(dbs)
 app.use(db)
 app.use(vue3GoogleLogin, {
-  clientId: '343595194587-dr5j53r1c5oau0p9skut7mtq8cfskhna.apps.googleusercontent.com'
+  client_id: '343595194587-dr5j53r1c5oau0p9skut7mtq8cfskhna.apps.googleusercontent.com',
+  scope: 'email'
 })
 app.use(
   createGtm({
