@@ -279,19 +279,18 @@ import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
-
+const callback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log("Handle the response", response)
+}
 export default {
      components : {
       VFacebookLogin, 
         
     },
-    setup(){const callback = (response) => {
-  // This callback will be triggered when the user selects or login to
-  // his Google account from the popup
-  console.log("Handle the response", response)
-}
-console.log("sds");
-console.log(callback);},
+
+
   data () {
 
        return { 
