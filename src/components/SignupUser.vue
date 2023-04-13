@@ -22,7 +22,11 @@
                       
                         <div class="text-center mt-4">
                             <GoogleLogin    
-                            :callback="callback"/>
+                              @onLoginSuccess="handleLoginSuccess" 
+                              @onLoginFailure="handleLoginFailure" 
+                              @onLogoutSuccess="handleLogoutSuccess" 
+                              @onLogoutFailure="handleLogoutFailure"
+                            />
                             <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
@@ -272,18 +276,14 @@
   </v-app>
 </template>
 
-<script>
+<script >
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {getFirestore,collection, addDoc } from "firebase/firestore";
 import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
-const callback = (response) => {
-  // This callback will be triggered when the user selects or login to
-  // his Google account from the popup
-  console.log("Handle the response", response)
-}
+
 export default {
      components : {
       VFacebookLogin, 
@@ -370,6 +370,18 @@ export default {
   },
   
   methods: {
+    handleLoginSuccess(googleUser) {
+      console.log(googleUser);
+    },
+    handleLoginFailure(error) {
+      console.log(error)
+    },
+    handleLogoutSuccess() {
+      this.user = null;
+    },
+    handleLogoutFailure(error) {
+      console.log(error)
+    },
     redirect(){this.$router.push('home') },
     handleSdkInit({ FB, scope }) {
         this.FB = FB
