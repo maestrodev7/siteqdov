@@ -371,16 +371,20 @@ export default {
   
   methods: {
     handleLoginSuccess(googleUser) {
-      console.log(googleUser);
+      console.log(googleUser.getId());
+      console.log("ksdkl");
     },
     handleLoginFailure(error) {
       console.log(error)
+      console.log("ksdkl");
     },
     handleLogoutSuccess() {
       this.user = null;
+      console.log("ksdkl");
     },
     handleLogoutFailure(error) {
       console.log(error)
+      console.log("ksdkl");
     },
     redirect(){this.$router.push('home') },
     handleSdkInit({ FB, scope }) {
