@@ -18,8 +18,12 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import vue3GoogleLogin from 'vue3-google-login'
-
+import gAuthPlugin from 'vue3-google-oauth2'
+// free key api for test 676785461988-icoil0dtlld2fcp5kb22llst7t94mans.apps.googleusercontent.com
+const gAuthOptions = {
+  clientId: '334631112973-bfm94d82l11aqhad19q0dnptt0n7c88n.apps.googleusercontent.com',
+  scope: 'email', prompt: 'consent', fetch_basic_profile: false
+}
 // importer google login 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -47,11 +51,7 @@ const vuetify = createVuetify({
 app.use(vuetify)
 app.use(dbs)
 app.use(db)
-app.use(vue3GoogleLogin, {
-  
-  clientId: '343595194587-dr5j53r1c5oau0p9skut7mtq8cfskhna.apps.googleusercontent.com',
-  scope: 'email', prompt: 'consent', fetch_basic_profile: false
-})
+app.use(gAuthPlugin, gAuthOptions)
 app.use(
   createGtm({
     id: "GTM-NMR84TD", // Your GTM single container ID, array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy'] or array of objects [{id: 'GTM-xxxxxx', queryParams: { gtm_auth: 'abc123', gtm_preview: 'env-4', gtm_cookies_win: 'x'}}, {id: 'GTM-yyyyyy', queryParams: {gtm_auth: 'abc234', gtm_preview: 'env-5', gtm_cookies_win: 'x'}}], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']

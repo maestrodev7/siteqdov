@@ -19,15 +19,13 @@
                               </h3>
                             </v-toolbar-title>
                         </v-toolbar>
-                      
+                        <h1>Is Initialized: {{ Vue3GoogleOauth.isInit }}</h1>
+                        <h1>Is Authorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
                         <div class="text-center mt-4">
-                            <GoogleLogin    
-                              @onLoginSuccess="handleLoginSuccess" 
-                              @onLoginFailure="handleLoginFailure" 
-                              @onLogoutSuccess="handleLogoutSuccess" 
-                              @onLogoutFailure="handleLogoutFailure"
-                            />
-                            <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
+                          <v-btn @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized'>Sign In</v-btn>
+                          <v-btn @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized'>Sign Out</v-btn>
+ 
+                          <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
                           </v-btn>
@@ -283,7 +281,7 @@ import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
-
+import { inject } from 'vue';
 export default {
      components : {
       VFacebookLogin, 
@@ -294,6 +292,7 @@ export default {
   data () {
 
        return { 
+        user: '',
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
       itemCountry: Country.getAllCountries(),
@@ -370,21 +369,36 @@ export default {
   },
   
   methods: {
-    handleLoginSuccess(googleUser) {
-      console.log(googleUser.getId());
-      console.log("ksdkl");
+    async handleSignIn() {
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        // console.log(this.$gAuth.signIn);
+
+        if (!googleUser) {
+          return null;
+        }
+        console.log(googleUser.getBasicProfile().getEmail());
+        console.log(googleUser.getBasicProfile().getFamilyName());
+        console.log(googleUser.getBasicProfile().getGivenName());
+        console.log(googleUser.getBasicProfile().getId());
+        console.log(googleUser.getBasicProfile().getImageUrl());
+        console.log(googleUser.getBasicProfile().getName());
+        this.user = googleUser.getBasicProfile().getEmail();
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+      
     },
-    handleLoginFailure(error) {
-      console.log(error)
-      console.log("ksdkl");
-    },
-    handleLogoutSuccess() {
-      this.user = null;
-      console.log("ksdkl");
-    },
-    handleLogoutFailure(error) {
-      console.log(error)
-      console.log("ksdkl");
+    async handleSignOut() {
+      try {
+        await this.$gAuth.signOut();
+        // console.log(this.$gAuth.signOut);
+
+        this.user = '';
+      } catch (error) {
+        console.log(error);
+      }
     },
     redirect(){this.$router.push('home') },
     handleSdkInit({ FB, scope }) {
@@ -472,6 +486,14 @@ export default {
   },
   props: {
     source: String
+  },
+
+  setup() {
+    const Vue3GoogleOauth = inject('Vue3GoogleOauth');
+
+    return {
+      Vue3GoogleOauth,
+    };
   }
 };
 </script>
