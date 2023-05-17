@@ -18,7 +18,7 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import gAuthPlugin from 'vue3-google-oauth2'
+import gAuthPlugin from 'vue3-google-login'
 // free key api for test 676785461988-icoil0dtlld2fcp5kb22llst7t94mans.apps.googleusercontent.com
 const gAuthOptions = {
   clientId: '334631112973-bfm94d82l11aqhad19q0dnptt0n7c88n.apps.googleusercontent.com',

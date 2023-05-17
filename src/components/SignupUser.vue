@@ -19,12 +19,9 @@
                               </h3>
                             </v-toolbar-title>
                         </v-toolbar>
-                        <h1>Is Initialized: {{ Vue3GoogleOauth.isInit }}</h1>
-                        <h1>Is Authorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
+
                         <div class="text-center mt-4">
-                          <v-btn @click='handleSignIn' :disabled='!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized'>Sign In</v-btn>
-                          <v-btn @click='handleSignOut' :disabled='!Vue3GoogleOauth.isAuthorized'>Sign Out</v-btn>
- 
+                          <vue3GoogleLogin :callback="callback" />
                           <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
@@ -281,18 +278,20 @@ import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
-import { inject } from 'vue';
+import vue3GoogleLogin from 'vue3-google-login'
 export default {
      components : {
       VFacebookLogin, 
-        
+      vue3GoogleLogin
     },
 
 
   data () {
 
        return { 
-        user: '',
+        callback: (response) => {
+        console.log("Handle the response",response)
+      },
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
       itemCountry: Country.getAllCountries(),
@@ -488,13 +487,7 @@ export default {
     source: String
   },
 
-  setup() {
-    const Vue3GoogleOauth = inject('Vue3GoogleOauth');
 
-    return {
-      Vue3GoogleOauth,
-    };
-  }
 };
 </script>
 <style>
