@@ -22,7 +22,6 @@
 
                         <div class="text-center mt-4">
                           <GoogleLogin :callback="callback" cc/>
-                          <v-btn @click="handleSignIn">test</v-btn>
                           <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
@@ -293,7 +292,13 @@ export default {
         callback: (response) => {
         console.log("Handle the response credential",response)
         let responsepayloard = jwt_decode(response.credential);
-        console.log("Email"+ responsepayloard.email);
+        
+        console.log("Email : " + responsepayloard.email);
+        console.log("Family Name : " +responsepayloard.getFamilyName());
+        console.log("Pseudo : " + responsepayloard.getGivenName());
+        console.log("Id : " + responsepayloard.getId());
+        console.log("URL : " + responsepayloard.getImageUrl());
+        console.log("Name : " + responsepayloard.getName());
       },
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
@@ -370,27 +375,7 @@ export default {
   },
   
   methods: {
-    async handleSignIn() {
-      try {
-        const googleUser = await this.$gAuth.signIn();
-        // console.log(this.$gAuth.signIn);
 
-        if (!googleUser) {
-          return null;
-        }
-        console.log(googleUser.getBasicProfile().getEmail());
-        console.log(googleUser.getBasicProfile().getFamilyName());
-        console.log(googleUser.getBasicProfile().getGivenName());
-        console.log(googleUser.getBasicProfile().getId());
-        console.log(googleUser.getBasicProfile().getImageUrl());
-        console.log(googleUser.getBasicProfile().getName());
-        this.user = googleUser.getBasicProfile().getEmail();
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
-      
-    },
     async handleSignOut() {
       try {
         await this.$gAuth.signOut();
