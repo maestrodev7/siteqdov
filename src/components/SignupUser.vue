@@ -21,7 +21,7 @@
                         </v-toolbar>
 
                         <div class="text-center mt-4">
-                          <vue3GoogleLogin :callback="callback" />
+                          <GoogleLogin :callback="callback" cc/>
                           <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
@@ -278,11 +278,10 @@ import VFacebookLogin from 'vue-facebook-login-component-next'
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
-import vue3GoogleLogin from 'vue3-google-login'
 export default {
      components : {
       VFacebookLogin, 
-      vue3GoogleLogin
+
     },
 
 
@@ -290,7 +289,7 @@ export default {
 
        return { 
         callback: (response) => {
-        console.log("Handle the response",response)
+        console.log("Handle the response credential",response)
       },
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
@@ -298,7 +297,6 @@ export default {
       FB: {},
      
       scope: {},
-      logggole: "callback",
     
      formerror:"",
      formsucces:"",
