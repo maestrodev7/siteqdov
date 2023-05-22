@@ -294,11 +294,10 @@ export default {
         let responsepayloard = jwt_decode(response.credential);
         
         console.log("Email : " + responsepayloard.email);
-        console.log("Family Name : " +responsepayloard.getFamilyName());
-        console.log("Pseudo : " + responsepayloard.getGivenName());
-        console.log("Id : " + responsepayloard.getId());
-        console.log("URL : " + responsepayloard.getImageUrl());
-        console.log("Name : " + responsepayloard.getName());
+        console.log("Family Name : " +responsepayloard.family_name);
+        console.log("Pseudo : " + responsepayloard.given_name);
+        console.log("URL : " + responsepayloard.picture);
+        console.log("Name : " + responsepayloard.name);
       },
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
