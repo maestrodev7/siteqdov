@@ -22,6 +22,7 @@
 
                         <div class="text-center mt-4">
                           <GoogleLogin :callback="callback" cc/>
+                          <v-btn @click="handleSignIn">test</v-btn>
                           <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
