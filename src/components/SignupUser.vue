@@ -276,6 +276,7 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {getFirestore,collection, addDoc } from "firebase/firestore";
 import VFacebookLogin from 'vue-facebook-login-component-next'
+import jwt_decode from "jwt-decode";
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
@@ -291,6 +292,8 @@ export default {
        return { 
         callback: (response) => {
         console.log("Handle the response credential",response)
+        let responsepayloard = jwt_decode(response.credential);
+        console.log("Email"+ responsepayloard.email);
       },
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
