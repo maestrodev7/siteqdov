@@ -21,14 +21,16 @@
                         </v-toolbar>
 
                         <div class="text-center mt-4">
-                          <GoogleLogin :callback="callback" cc/>
+                          <v-btn @click="goregister">google register</v-btn>
+                          <!-- <GoogleLogin :callback="callback"/>
+                          
                           <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
                           <v-btn class="mx-2" fab color="info" outlined>
                             <v-icon>mdi-linkedin</v-icon>
-                          </v-btn>
+                          </v-btn> -->
                         </div>
                         <h4 class="text-center mt-4">Ensure your email for registration</h4>
-                        <v-form @submit.prevent="onSubmit " v-model="form">
+                        <v-form @submit.prevent="onSubmit" v-model="form">
 
                               <v-alert v-if="formerror"
                               dense
@@ -247,6 +249,34 @@
             </v-card-actions>
           </v-card>
     </v-dialog>
+    <v-dialog
+        transition="dialog-bottom-transition"
+        width="auto"
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn
+            color="primary"
+            v-bind="props"
+          >From the bottom</v-btn>
+        </template>
+        <template v-slot:default="{ isActive }">
+          <v-card>
+            <v-toolbar
+              color="primary"
+              title="Opening from the bottom"
+            ></v-toolbar>
+            <v-card-text>
+              <div class="text-h2 pa-12">Hello world!</div>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+              <v-btn
+                variant="text"
+                @click="isActive.value = false"
+              >Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </v-dialog>
         <v-overlay :model-value="overlay" class="align-center justify-center">
       <v-progress-circular
         indeterminate
@@ -272,16 +302,16 @@
 </template>
 
 <script >
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth,GoogleAuthProvider,signInWithPopup,createUserWithEmailAndPassword } from "firebase/auth";
 import {getFirestore,collection, addDoc } from "firebase/firestore";
-import VFacebookLogin from 'vue-facebook-login-component-next'
+// import VFacebookLogin from 'vue-facebook-login-component-next'
 import jwt_decode from "jwt-decode";
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
 export default {
      components : {
-      VFacebookLogin, 
+      // VFacebookLogin, 
 
     },
 
@@ -457,6 +487,17 @@ export default {
 
 
     },
+    async goregister(){
+            const provider = new GoogleAuthProvider();
+            const auth = getAuth();
+            try {
+
+            const result = await signInWithPopup(auth, provider)
+              console.log(result.user)
+            } catch(error) {
+                console.log("error : ", error);
+            }
+          },
     validate() {
       if (this.$refs.loginForm.validate()) {
         // submit form to server/API here...
