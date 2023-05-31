@@ -21,7 +21,13 @@
                         </v-toolbar>
 
                         <div class="text-center mt-4">
-                          <v-btn @click="goregister">google register</v-btn>
+                          <v-btn @click="goregister" color="red" class="mr-4" dark small>
+                            <v-icon>mdi-google</v-icon>google
+                          </v-btn>
+                          <v-btn @click="facebookregister" color="info" class="mr-4" dark small>
+                            
+                            <v-icon>mdi-facebook</v-icon>facebook
+                          </v-btn>
                           <!-- <GoogleLogin :callback="callback"/>
                           
                           <v-facebook-login @sdk-init="handleSdkInit" app-id="876393646978646"></v-facebook-login>
@@ -29,7 +35,7 @@
                             <v-icon>mdi-linkedin</v-icon>
                           </v-btn> -->
                         </div>
-                        <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                        
                         <v-form @submit.prevent="onSubmit" v-model="form">
 
                               <v-alert v-if="formerror"
@@ -249,34 +255,7 @@
             </v-card-actions>
           </v-card>
     </v-dialog>
-    <v-dialog
-        transition="dialog-bottom-transition"
-        width="auto"
-      >
-        <template v-slot:activator="{ props }">
-          <v-btn
-            color="primary"
-            v-bind="props"
-          >From the bottom</v-btn>
-        </template>
-        <template v-slot:default="{ isActive }">
-          <v-card>
-            <v-toolbar
-              color="primary"
-              title="Opening from the bottom"
-            ></v-toolbar>
-            <v-card-text>
-              <div class="text-h2 pa-12">Hello world!</div>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-              <v-btn
-                variant="text"
-                @click="isActive.value = false"
-              >Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </v-dialog>
+
         <v-overlay :model-value="overlay" class="align-center justify-center">
       <v-progress-circular
         indeterminate
@@ -302,16 +281,15 @@
 </template>
 
 <script >
-import { getAuth,GoogleAuthProvider,signInWithPopup,createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth,GoogleAuthProvider,FacebookAuthProvider,signInWithPopup,createUserWithEmailAndPassword } from "firebase/auth";
 import {getFirestore,collection, addDoc } from "firebase/firestore";
-// import VFacebookLogin from 'vue-facebook-login-component-next'
-import jwt_decode from "jwt-decode";
+
 //import { db } from "../main.js"
 import { Country }  from 'country-state-city';
 console.log(Country.getAllCountries())
 export default {
      components : {
-      // VFacebookLogin, 
+ 
 
     },
 
@@ -319,22 +297,20 @@ export default {
   data () {
 
        return { 
-        callback: (response) => {
-        console.log("Handle the response credential",response)
-        let responsepayloard = jwt_decode(response.credential);
+      //   callback: (response) => {
+      //   console.log("Handle the response credential",response)
+      //   let responsepayloard = jwt_decode(response.credential);
         
-        console.log("Email : " + responsepayloard.email);
-        console.log("Family Name : " +responsepayloard.family_name);
-        console.log("Pseudo : " + responsepayloard.given_name);
-        console.log("URL : " + responsepayloard.picture);
-        console.log("Name : " + responsepayloard.name);
-      },
+      //   console.log("Email : " + responsepayloard.email);
+      //   console.log("Family Name : " +responsepayloard.family_name);
+      //   console.log("Pseudo : " + responsepayloard.given_name);
+      //   console.log("URL : " + responsepayloard.picture);
+      //   console.log("Name : " + responsepayloard.name);
+      // },
            country: [{name: 'select country', isoCode: '', flag: '', phonecode: '', currency: ''}],
            valid: false,
       itemCountry: Country.getAllCountries(),
-      FB: {},
-     
-      scope: {},
+
     
      formerror:"",
      formsucces:"",
@@ -416,10 +392,7 @@ export default {
       }
     },
     redirect(){this.$router.push('home') },
-    handleSdkInit({ FB, scope }) {
-        this.FB = FB
-        this.scope = scope
-      },
+
     
         async  onSubmit() {
             const docData = {
@@ -461,6 +434,11 @@ export default {
              
               
               switch (errorCode) {
+                
+
+                case 'auth/email-already-in-use':
+                  this.formerror='email already in use';
+                  break;
                 case 'auth/email-already-exists':
                   this.formerror='email already exists';
                   break;
@@ -487,6 +465,52 @@ export default {
 
 
     },
+    async facebookregister(){
+      // Create an instance of the Facebook provider object:
+    var provider = new FacebookAuthProvider();
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+    .then((result) => {
+              // This gives you a Google Access Token. You can use it to access the Google API.
+              const credential = FacebookAuthProvider.credentialFromResult(result);
+              const token = credential.accessToken;
+              console.log(" token " + token);
+              // The signed-in user info.
+              const user = result.user;
+              console.log("info user " + user);
+              const docData = {
+                  firstName: user.displayName,
+                  email: user.email,
+                  avatar: user.photoURL,
+              };
+              // IdP data available using getAdditionalUserInfo(result)
+              // ...
+              try{  
+                const db = getFirestore();
+                const docRef =  addDoc(collection(db, "Users"),docData);
+                console.log("Document written with ID: ", docRef.id);
+                this.formsucces="information save succesfully"
+                this.dialog=true;
+                } catch (e) {
+                  console.error("Error adding document: ", e);
+                }
+            }).catch((error) => {
+              // Handle Errors here.
+              const errorCode = error.code;
+              console.log(errorCode);
+              const errorMessage = error.message;
+              console.log(errorMessage);
+              // The email of the user's account used.
+              const email = error.customData.email;
+              console.log(email);
+              // The AuthCredential type that was used.
+              const credential = FacebookAuthProvider .credentialFromError(error);
+              console.log(credential);
+              
+              // ...
+            });
+    }
+    ,
     async goregister(){
             const provider = new GoogleAuthProvider();
             const auth = getAuth();
@@ -499,16 +523,35 @@ export default {
               // The signed-in user info.
               const user = result.user;
               console.log("info user " + user);
+              const docData = {
+                  firstName: user.displayName,
+                  email: user.email,
+                  avatar: user.photoURL,
+              };
               // IdP data available using getAdditionalUserInfo(result)
               // ...
+              try{  
+                const db = getFirestore();
+                const docRef =  addDoc(collection(db, "Users"),docData);
+                console.log("Document written with ID: ", docRef.id);
+                this.formsucces="information save succesfully"
+                this.dialog=true;
+                } catch (e) {
+                  console.error("Error adding document: ", e);
+                }
             }).catch((error) => {
               // Handle Errors here.
               const errorCode = error.code;
+              console.log(errorCode);
               const errorMessage = error.message;
+              console.log(errorMessage);
               // The email of the user's account used.
               const email = error.customData.email;
+              console.log(email);
               // The AuthCredential type that was used.
               const credential = GoogleAuthProvider.credentialFromError(error);
+              console.log(credential);
+              
               // ...
             });
           },
