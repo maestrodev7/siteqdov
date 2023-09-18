@@ -20,7 +20,7 @@
                             </v-toolbar-title>
                         </v-toolbar>
 
-                        <div class="text-center mt-4">
+                        <div class="text-center mt-6">
                           <v-btn @click="goregister" color="red" class="mr-4" dark small>
                             <v-icon>mdi-google</v-icon>google
                           </v-btn>
@@ -35,7 +35,7 @@
                             <v-icon>mdi-linkedin</v-icon>
                           </v-btn> -->
                         </div>
-                        
+                        <h4 class="text-center mt-4"></h4>
                         <v-form @submit.prevent="onSubmit" v-model="form">
 
                               <v-alert v-if="formerror"
@@ -111,7 +111,7 @@
                               label="Country"
                             >  
  
-                                                  </v-select>
+                          </v-select>
                           </v-col>
                           <v-col
                             cols="12"
@@ -176,7 +176,7 @@
                           >
                            <v-text-field 
                            v-model="password" 
-                           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
+                           :prepend-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
                            :rules="[rules.required, rules.min]" 
                            :type="show1 ? 'text' : 'password'" 
                            name="password" 
@@ -193,7 +193,7 @@
                           >
                           <v-text-field 
                           block v-model="verify" 
-                          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
+                          :prepend-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" 
                           :rules="[rules.required, passwordMatch]" 
                           :type="show1 ? 'text' : 'password'" 
                           name="verify" 
@@ -218,51 +218,51 @@
                     >
                      Sign in
                     </v-btn>
-    <v-dialog
-      v-model="dialog"
-      hide-overlay
-      persistent
-      width="300"
-    >
-      <v-card
-      v-if="!thanks"
-        color="primary"
-        dark
-      >
-        <v-card-text>
-          Please stand by
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          ></v-progress-linear>
-        </v-card-text>
-      </v-card>
-                 <v-card v-if="thanks">
-            <v-toolbar
-            density="comfortable"
-            color="success"
-            variant="tonal"
-            >    Information save succesfully</v-toolbar>
-            <v-card-text>
-              <div class="text-h4 ">Thank you!</div>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-              <v-btn
-                text
-                @click="dialog = false, redirect()"
-              >Close</v-btn>
-            </v-card-actions>
-          </v-card>
-    </v-dialog>
+                    <v-dialog
+                      v-model="dialog"
+                      hide-overlay
+                      persistent
+                      width="300"
+                    >
+                      <v-card
+                      v-if="!thanks"
+                        color="primary"
+                        dark
+                      >
+                        <v-card-text>
+                          Please stand by
+                          <v-progress-linear
+                            indeterminate
+                            color="white"
+                            class="mb-0"
+                          ></v-progress-linear>
+                        </v-card-text>
+                      </v-card>
+                                <v-card v-if="thanks">
+                            <v-toolbar
+                            density="comfortable"
+                            color="success"
+                            variant="tonal"
+                            >    Information save succesfully</v-toolbar>
+                            <v-card-text>
+                              <div class="text-h4 ">Thank you!</div>
+                            </v-card-text>
+                            <v-card-actions class="justify-end">
+                              <v-btn
+                                text
+                                @click="dialog = false, redirect()"
+                              >Close</v-btn>
+                            </v-card-actions>
+                          </v-card>
+                    </v-dialog>
 
-        <v-overlay :model-value="overlay" class="align-center justify-center">
-      <v-progress-circular
-        indeterminate
-        size="64"
-        color="primary"
-      ></v-progress-circular>
-    </v-overlay>
+                        <v-overlay :model-value="overlay" class="align-center justify-center">
+                      <v-progress-circular
+                        indeterminate
+                        size="64"
+                        color="primary"
+                      ></v-progress-circular>
+                    </v-overlay>
 
                       </div>
                         </v-form>

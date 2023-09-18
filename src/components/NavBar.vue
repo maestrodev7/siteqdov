@@ -3,7 +3,7 @@
     <v-card class="draw-navpri">
     <v-layout class="">
       <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
-
+    <div>
       <v-app-bar
         color="blue-grey-darken-3"
         elevation="5"
@@ -18,45 +18,53 @@
 
         <v-toolbar-title>Qdov</v-toolbar-title>
           <v-spacer></v-spacer>
-               <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn class="text-none" :to="{ name: 'home'}" stacked>
-        <v-badge dot color="success">
-          <v-icon>mdi-home-outline</v-icon>
-        </v-badge>
-        Home
-      </v-btn>
+          <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn class="text-none" :to="{ name: 'home'}" stacked>
+            <v-badge dot color="success">
+              <v-icon>mdi-home-outline</v-icon>
+            </v-badge>
+            Home
+          </v-btn>
 
-      <v-btn class="text-none" stacked>
-        <v-badge content="9+" color="error">
-          <v-icon>mdi-store-outline</v-icon>
-        </v-badge>
-        Store
-      </v-btn>
+          <v-btn class="text-none" stacked>
+            <v-badge content="9+" color="error">
+              <v-icon>mdi-store-outline</v-icon>
+            </v-badge>
+            Store
+          </v-btn>
 
-      <v-btn class="text-none" stacked>
-        <v-badge content="2" color="error">
-          <v-icon>mdi-bell-outline</v-icon>
-        </v-badge>
-        Notifications
-      </v-btn>    
-    </v-toolbar-items>
+          <v-btn class="text-none" stacked>
+            <v-badge content="2" color="error">
+              <v-icon>mdi-bell-outline</v-icon>
+            </v-badge>
+            Notifications
+          </v-btn>    
+        </v-toolbar-items>
         <v-spacer></v-spacer>
 
         <v-btn variant="text" icon="mdi-magnify"></v-btn>
 
         <v-btn variant="text" icon="mdi-cart"></v-btn>
 
-      <v-btn class="text-none" :to="{  name: 'signupUser'}" stacked>
-        <v-icon>mdi-account-plus-outline</v-icon>
-       Register
-      </v-btn>
-
-      <v-btn class="text-none" :to="{  name: 'loginUser'}" stacked>
-        <v-icon>mdi-login-variant</v-icon>
-       Login
-      </v-btn>
+        <v-btn v-if="!isAuthenticated" class="text-none" :to="{  name: 'signupUser'}" stacked>
+          <v-icon>mdi-account-plus-outline</v-icon>
+        Register
+        </v-btn>
+        <v-btn  v-if="isAuthenticated" class="text-none"  @click="logOut" stacked>
+          <v-icon>mdi-profile</v-icon>
+          Profile
+        </v-btn>
+        <v-btn  v-if="isAuthenticated" class="text-none"  @click="logOut" stacked>
+          <v-icon>mdi-login-variant</v-icon>
+          Log Out
+        </v-btn>
+        <v-btn  v-if="!isAuthenticated" class="text-none" :to="{  name: 'loginUser'}" stacked>
+          <v-icon>mdi-login-variant</v-icon>
+        Login
+        </v-btn>
       </v-app-bar>
-
+    </div>
+    <div>
      <v-navigation-drawer
         v-model="drawer"
         temporary
@@ -74,6 +82,24 @@
           <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
         </v-list>
       </v-navigation-drawer>
+    </div>
+      <v-carousel>
+        <v-carousel-item
+          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+          cover
+        ></v-carousel-item>
+
+        <v-carousel-item
+          src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg"
+          cover
+        ></v-carousel-item>
+
+        <v-carousel-item
+          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+          cover
+        ></v-carousel-item>
+      </v-carousel>
+    <!-- <div>
     <v-main>
       <v-container>
         <v-content>
@@ -81,15 +107,18 @@
         </v-content>
       </v-container>
     </v-main>
+    </div> -->
     </v-layout>
   </v-card>
 
 </template>
 <script>
+import { getAuth, signOut } from "firebase/auth";
   export default {
     data: () => ({
       drawer: false,
       group: null,
+      isAuthenticated: false,
       items: [
         {
           title: 'Foo',
@@ -109,7 +138,19 @@
         },
       ],
     }),
-
+    
+    methods: {
+      logOut(){
+        const auth = getAuth();
+        signOut(auth).then(() => {
+          console.log("disconnected");
+          this.isAuthenticated = true
+        }).catch((error) => {
+          // An error happened.
+          console.log(error);
+        });
+      }
+    },
     watch: {
       group () {
         this.drawer = false
