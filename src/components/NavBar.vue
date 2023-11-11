@@ -83,21 +83,13 @@
         </v-list>
       </v-navigation-drawer>
     </div>
-      <v-carousel>
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          cover
-        ></v-carousel-item>
-
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg"
-          cover
-        ></v-carousel-item>
-
-        <v-carousel-item
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          cover
-        ></v-carousel-item>
+    <v-carousel class="carousel" height="400"> <!-- Adjust the height as needed -->
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover>
+          <h2 class="display-2">Text for Docks</h2>
+          <p class="subtitle-1">Your additional information here.</p>
+        </v-carousel-item>
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg" cover></v-carousel-item>
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-carousel-item>
       </v-carousel>
     <!-- <div>
     <v-main>
@@ -160,9 +152,9 @@ import { getAuth, signOut } from "firebase/auth";
 </script>
 <style scoped>
 .draw-navpri {
-
   z-index: 5;
-
-
+}
+.carousel {
+  margin-top: 5px; /* Adjust the margin as needed */
 }
 </style>
